@@ -3,27 +3,27 @@
 
 Adding a node, or scaling out, to your existing cluster that is created by the {mce} with Zero Touch Provisioning or Host inventory create methods fails during installation. The installation process works correctly during the Discovery phase, but fails on the installation phase. 
 
-The configuration of the network is failing. Using the console, you see a `pending` user action. In the description, you can see it failing on the rebooting step.
+The configuration of the network is failing. In the {RHACM} console, you see a `pending` user action. In the description, you can see it failing on the rebooting step.
 
-The error message about failing is not very accurate, since the agent cannot report information.
+The error message about failing is not very accurate. Since the agent running, in the installing host, cannot report information.
  
 [#symptom-network-config-fail]
 == Symptom: Installation for day two workers fails
 
 After the Discover phase, the host reboots to continue the installation, but it cannot configure the network. Check for the following symptoms and messages:
 
-* In the console, check for `Pending` user action on the adding node, with the `Rebooting` indicator:
+* Management cluster: in the {RHACM} console. Check for `Pending` user action on the adding node, with the `Rebooting` indicator:
 +
 ----
 This host is pending user action. Host timed out when pulling ignition. Check the host console... Rebooting
 ----
 
-* Check all the `MachineConfings` of the existing cluster. Check if any of the `MachineConfigs` create any file on the following directories: 
+* Managed cluster: {OCP} configuration. Check all the `MachineConfings` of the existing cluster. Check if any of the `MachineConfigs` create any file on the following directories: 
 
  ** `/sysroot/etc/NetworkManager/system-connections/` 
  ** `/sysroot/etc/sysconfig/network-scripts/` 
 
-In the console, check the failing host for the following messages. You can also use `journalctl` to see the log messages:
+* Installing host: in a console (or terminal), check the failing host for the following messages. You can use `journalctl` to see the log messages:
 
 ----
 info: networking config is defined in the real root
@@ -45,5 +45,5 @@ Perform the following task to use a proper network configuration during the inst
 "bmac.agent-install.openshift.io/installer-args": "[\"--append-karg\", \"coreos.force_persist_ip\"]"
 ----
 
-The node starts the installation and after the Discovery phase, it reboots. With succes, it merges the network configuration between the changes on the existing cluster and the initial configuration.
+The node starts the installation. After the Discovery phase, it merges the network configuration between the changes on the existing cluster and the initial configuration.
 
