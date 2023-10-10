@@ -8,7 +8,7 @@ The configuration of the network is failing. Therefore, the message on what coul
 [#symptom-worker-node-fail]
 == Symptom: Installation for day two workers fails
 
-At the Discover phase, the host cannot configure the network. Check for the following symptoms and messages:
+After the Discover phase, the host reboots to continue the installation, but it cannot configure the network. Check for the following symptoms and messages:
 
  * Check, that RHACM GUI shows an Pending user action on the adding node.
 ====
@@ -29,11 +29,11 @@ Actually, this last message is the real problem. The networking configuration is
 [#resolving-cluster-rotating-agents]
 == Resolving the problem: Recreate the node merging network configuration
 
-Perform the following task to manually configure your network:
+Perform the following task to use a proper network configuration during the installation:
 
 . Delete the node from your hub cluster
 . Repeat your previous process to install the node in the same way
-. This time, add the following annotation to the BareMetalHost (BMH) object of the new node: 
+. This time, create the BareMetalHost (BMH) object of the node, with the following annotation: 
 ====
 "bmac.agent-install.openshift.io/installer-args": "[\"--append-karg\", \"coreos.force_persist_ip\"]"
 ====
