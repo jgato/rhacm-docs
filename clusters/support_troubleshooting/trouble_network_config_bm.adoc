@@ -3,7 +3,7 @@
 
 Adding a node, or scaling out, to your existing cluster that is created by the {mce} with Zero Touch Provisioning or Host inventory create methods fails during installation. The installation process works correctly during the Discovery phase, but fails on the installation phase. 
 
-The configuration of the network is failing. In the {RHACM} console, you see a `pending` user action. In the description, you can see it failing on the rebooting step.
+The configuration of the network is failing. In the {rhacm} UI, you see a `pending` user action. In the description, you can see it failing on the rebooting step.
 
 The error message about failing is not very accurate. Since the agent running, in the installing host, cannot report information.
  
@@ -12,18 +12,18 @@ The error message about failing is not very accurate. Since the agent running, i
 
 After the Discover phase, the host reboots to continue the installation, but it cannot configure the network. Check for the following symptoms and messages:
 
-* Management cluster: in the {RHACM} console. Check for `Pending` user action on the adding node, with the `Rebooting` indicator:
+* Management cluster: in the {rhacm} UI. Check for `Pending` user action on the adding node, with the `Rebooting` indicator:
 +
 ----
 This host is pending user action. Host timed out when pulling ignition. Check the host console... Rebooting
 ----
 
-* Managed cluster: {OCP} configuration. Check all the `MachineConfings` of the existing cluster. Check if any of the `MachineConfigs` create any file on the following directories: 
+* Managed cluster: {ocp} configuration. Check all the `MachineConfings` of the existing cluster. Check if any of the `MachineConfigs` create any file on the following directories: 
 
  ** `/sysroot/etc/NetworkManager/system-connections/` 
  ** `/sysroot/etc/sysconfig/network-scripts/` 
 
-* Installing host: in a console (or terminal), check the failing host for the following messages. You can use `journalctl` to see the log messages:
+* Installing host: in a terminal, check the failing host for the following messages. You can use `journalctl` to see the log messages:
 
 ----
 info: networking config is defined in the real root
